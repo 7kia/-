@@ -2,13 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace CarFactoryNamespace
+{
+
 public class CarFactory : MonoBehaviour {
 
     public Transform[] spawnLocations;
     public GameObject[] whatToSpawnPrefab;
     public GameObject[] whatToSpawnClone;
 
-    public class CCarCounter
+        // public List<CCarCounter> carCounters = new List<CCarCounter>();
+    public List<int> transportIndex = new List<int>()
+    {
+        // -1 not index
+        0// 1
+        -1,// 2
+        -1,// 3
+        1,// 4
+        -1,// 5
+        -1,// 6
+        -1,// 7
+        -1,// 8
+        -1,// 9
+        -1,// 10
+    };
+
+        public class CCarCounter
     {
         public CCarCounter(int count, int carNumber)
         {
@@ -41,34 +60,38 @@ public class CarFactory : MonoBehaviour {
         private int m_carNumber = 0;
     }
 
-    private CCarCounter[] carCounters;
     public CarFactory()
     {   
-        carCounters[0] = new CCarCounter(3, 1);
+        //carCounters.Add(new CCarCounter(3, 1));
     }
 
-    void CreateCar(int number)
+    protected void CreateCar(int number)
     {
         switch (number)
         {
             case 1:
-                if(carCounters[0].Increase())
-                {
-                    whatToSpawnClone[0] = Instantiate(
-                        whatToSpawnPrefab[0],
-                        spawnLocations[0].transform.position,
+                //if(carCounters[0].Increase())
+               // {
+                    whatToSpawnClone[transportIndex[number - 1]] = Instantiate(
+                        whatToSpawnPrefab[transportIndex[number - 1]],
+                        spawnLocations[transportIndex[number - 1]].transform.position,
                         Quaternion.Euler(0, 0, 0)) as GameObject;
 
-                }
+                //}
                 break;
-        }
+            case 4:
+                //if(carCounters[1].Increase())
+                // {
+                whatToSpawnClone[transportIndex[number - 1]] = Instantiate(
+                    whatToSpawnPrefab[transportIndex[number - 1]],
+                    spawnLocations[transportIndex[number - 1]].transform.position,
+                    Quaternion.Euler(0, 0, 0)) as GameObject;
+
+                //}
+                break;
+            }
     }
 
-    void Update()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            //  CreateCar(1);
-        }
-    }
+}
+
 }
