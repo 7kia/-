@@ -34,10 +34,7 @@ public class GameManager : MonoBehaviour
 
         transports[lastIndex].transform.parent = spawnLocation.transform;
 
-
         lastIndex++;
-
-
     }
 }
 
