@@ -9,7 +9,7 @@ namespace CarFactoryNamespace
     public class CarFactory : MonoBehaviour
     {
         public GameManager gameManager;
-        public Transform spawnLocations;
+        public GameObject spawnLocations;
         public GameObject whatToSpawnPrefab;
         public GameObject[] whatToSpawnClone;
         public CCarCounter carCounter = new CCarCounter(0);
@@ -47,7 +47,7 @@ namespace CarFactoryNamespace
                 return false;
             }
 
-            private int m_count = 0;
+            public int m_count = 0;
             private int m_maxCount = 0;
         }
 
@@ -58,14 +58,17 @@ namespace CarFactoryNamespace
 
         public void CreateCar()
         {
-            //if (carCounter.Increase())
+            if (carCounter.Increase())
+            {
+                whatToSpawnClone[carCounter.m_count - 1] = Instantiate(
+                    gameManager.ClickedTransportBtn.TransportPrefab,
+                    spawnLocations.transform.position,
+                    Quaternion.Euler(0, 0, 0)) as GameObject;
+
+                whatToSpawnClone[carCounter.m_count - 1].transform.parent = spawnLocations.transform;
+            }
             //{
             //whatToSpawnClone.Insert
-            whatToSpawnClone[0] = Instantiate(
-                gameManager.ClickedTransportBtn.TransportPrefab,
-                spawnLocations.transform.position,
-                Quaternion.Euler(0, 0, 0)) as GameObject;
-
             //}
 
         }
