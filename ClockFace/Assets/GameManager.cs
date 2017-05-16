@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour
 {
     public TransportButton ClickedTransportBtn { get; private set; }
+    public Transform spawnLocation;
     private List<GameObject> transports = new List<GameObject>();
     private int lastIndex = 0;
 
@@ -31,7 +32,10 @@ public class GameManager : MonoBehaviour
                    ) as GameObject
               );
 
+        //spawnLocation = transports[lastIndex].transform;
         lastIndex++;
+
+
     }
 }
 
