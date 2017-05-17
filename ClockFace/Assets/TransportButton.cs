@@ -7,6 +7,9 @@ public class TransportButton : MonoBehaviour
     private GameObject transportPrefab;
     [SerializeField]
     private GameObject spawnLocation;
+    [SerializeField]
+    public int m_couterIndex;
+
 
     public GameObject TransportPrefab
     {
