@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<levels>
+  	<level id="0">
+		<award id="0" minutes="0" seconds="0"/>
+		<award id="1" minutes="0" seconds="0"/>
+		<award id="2" minutes="0" seconds="0"/>
+	</level>
+	<level id="1">
+		<award id="0" minutes="0" seconds="40"/>
+		<award id="1" minutes="0" seconds="30"/>
+		<award id="2" minutes="0" seconds="20"/>
+	</level>
+	<level id="2">
+		<award id="0" minutes="0" seconds="50"/>
+		<award id="1" minutes="0" seconds="40"/>
+		<award id="2" minutes="0" seconds="30"/>
+	</level>
+	<level id="3">
+		<award id="0" minutes="1" seconds="0"/>
+		<award id="1" minutes="1" seconds="20"/>
+		<award id="2" minutes="1" seconds="40"/>
+	</level>
+	<level id="4">
+		<award id="0" minutes="1" seconds="30"/>
+		<award id="1" minutes="1" seconds="50"/>
+		<award id="2" minutes="2" seconds="10"/>
+	</level>
+	<level id="5">
+		<award id="0" minutes="2" seconds="0"/>
+		<award id="1" minutes="2" seconds="30"/>
+		<award id="2" minutes="3" seconds="15"/>
+	</level>
+</levels>

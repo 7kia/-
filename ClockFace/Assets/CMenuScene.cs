@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyGame;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class CMenuScene : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public LevelManager levelManager;
+    public CurrentLevelInfoManager currentLevelInfoManager;
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -28,6 +31,8 @@ public class CMenuScene : MonoBehaviour {
 
     public void StartNewGame()
     {
+        levelManager.CreateLevelInfo();
+        currentLevelInfoManager.SetCurrentLevel(0);
         // TODO : reset info, load 1 level
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }

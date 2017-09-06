@@ -57,8 +57,10 @@ public class CTransportFactory : MonoBehaviour {
 
     public void UpdateCounters(List<int> countTransports)
     {
+        
         for(int index = 0; index < countTransports.Count; index++)
         {
+            Debug.Log(countTransports[index]);
             carCounter[index].Reset();
             carCounter[index].SetMax(countTransports[index]);
         }
@@ -81,4 +83,6 @@ public class CTransportFactory : MonoBehaviour {
 
         }
     }
+
+    
 }
