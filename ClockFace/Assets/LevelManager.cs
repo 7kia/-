@@ -33,6 +33,7 @@ namespace MyGame
         private List<List<int>> edgeNumbers = new List<List<int>>();
         private int m_curretnLevel = 0;
         public int m_resultNumber = 0;
+        public uint levelCount = 6;
         public void SetCurrentLevel(int levelId)
         {
             m_curretnLevel = levelId;
@@ -119,6 +120,7 @@ namespace MyGame
         // Use this for initialization
         void Start()
         {
+            LoadTimesForLevels();
             RecreateCarCounts();
             CreateLevelInfo();
         }
