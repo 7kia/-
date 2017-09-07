@@ -31,10 +31,11 @@ namespace MyGame
 
         public Dictionary<int, int> carCounts = new Dictionary<int, int>();
         private List<List<int>> edgeNumbers = new List<List<int>>();
-        private int m_resultNumber = 0;
+        private int m_curretnLevel = 0;
+        public int m_resultNumber = 0;
         public void SetCurrentLevel(int levelId)
         {
-
+            m_curretnLevel = levelId;
             if (levelId < 3)
             {
                 FillEdges(SIMPLE_FUGURE_EDGE_COUNT);
@@ -61,6 +62,7 @@ namespace MyGame
 
         private void FillEdges(int edgeCount)
         {
+            m_resultNumber = 0;
             for (int index = 0; index < edgeCount; ++index)
             {
                 List<int> edge = new List<int>();
@@ -68,25 +70,28 @@ namespace MyGame
                 // TODO : для следующих граней, край от прошлой грани не считаем
                 if (index == 0)
                 {
-                    edge.Add(4);
+                    edge.Add((m_curretnLevel + 1) * 2);
                 }
                 edge.Add(1);
                 if (index != (edgeCount - 1))
                 {
-                    edge.Add(4);
+                    edge.Add((m_curretnLevel + 1) * 2);
                 }
 
-                AppendAmountFromEdge(ref edge);
                 // TODO : добавь новых машинок
                 edgeNumbers.Add(edge);
             }
+            SetAmountFromEdge(edgeNumbers[0]);
         }
 
-        private void AppendAmountFromEdge(ref List<int> numbers)
+        private void SetAmountFromEdge(List<int> numbers)
         {
-            foreach(var value in numbers)
+            if (m_resultNumber == 0)
             {
-                m_resultNumber += value;
+                foreach (var value in numbers)
+                {
+                    m_resultNumber += value;
+                }
             }
         }
         #endregion
@@ -127,14 +132,12 @@ namespace MyGame
         private void RecreateCarCounts()
         {
             carCounts.Clear();
-            // TODO : добавь разные машины
-            //for (int index = 1; index <= 10; ++index)
-            //{
-            //    carCounts.Add(index, 0);
-            //}
-            carCounts.Add(1, 0);
-            carCounts.Add(4, 0);
 
+            carCounts.Add(1, 0);
+            for (int index = 1; index <= 4; ++index)
+            {
+                carCounts.Add(index * 2, 0);
+            }
         }
 
         public void CreateLevelInfo()

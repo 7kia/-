@@ -10,7 +10,11 @@ public class CTransportFactory : MonoBehaviour {
     public List<CCarCounter> carCounter = new List<CCarCounter>()
     {
         new CCarCounter(0),
+        new CCarCounter(0),
+        new CCarCounter(0),
+        new CCarCounter(0),
         new CCarCounter(0)
+
     };
     private int lastIndex = 0;
 

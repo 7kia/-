@@ -33,6 +33,7 @@ public class CMenuScene : MonoBehaviour {
     {
         levelManager.CreateLevelInfo();
         currentLevelInfoManager.SetCurrentLevel(0);
+
         // TODO : reset info, load 1 level
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }

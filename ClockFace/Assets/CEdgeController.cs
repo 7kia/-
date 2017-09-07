@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class CEdgeController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+
         bool numberIsCompute = true;
         foreach(CEdge edge in m_edges)
         {
@@ -26,11 +28,11 @@ public class CEdgeController : MonoBehaviour {
                 }
             }
             numberIsCompute &= (summEdge == m_resultNumber);
-
+            //Debug.Log("Edge result = " + m_resultNumber.ToString());
             // TODO : delete debug info
             if (summEdge == m_resultNumber)
             {
-               // Debug.Log("Edge result = " + m_resultNumber.ToString());
+              // Debug.Log("Edge result = " + m_resultNumber.ToString());
             }
         }
         // TODO : delete debug info
@@ -41,4 +43,6 @@ public class CEdgeController : MonoBehaviour {
 
 
     }
+
+   
 }
