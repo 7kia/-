@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         currentLevel = currentLevelInfoManager.GetCurrentLevelId();
 
         List<int> carCounts = new List<int>();
-        foreach(var value in levelManager.carCounts.Values.ToList())
+        foreach(var value in levelManager.carCounts.Values)
         {
             carCounts.Add(value);
             Debug.Log(value.ToString() + " value.ToString()");
