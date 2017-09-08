@@ -64,8 +64,9 @@ public class CTransportFactory : MonoBehaviour {
         
         for(int index = 0; index < countTransports.Count; index++)
         {
-            Debug.Log(countTransports[index]);
             carCounter[index].Reset();
+            Debug.Log(countTransports[index]);
+            Debug.Log(carCounter[index].m_count);
             carCounter[index].SetMax(countTransports[index]);
         }
     }

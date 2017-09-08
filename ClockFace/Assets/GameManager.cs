@@ -36,9 +36,10 @@ public class GameManager : MonoBehaviour
         currentLevel = currentLevelInfoManager.GetCurrentLevelId();
 
         List<int> carCounts = new List<int>();
-        foreach(var value in levelManager.carCounts.Values)
+        foreach(var value in levelManager.carCounts.Values.ToList())
         {
             carCounts.Add(value);
+            Debug.Log(value.ToString() + " value.ToString()");
         }
         transportFactory.UpdateCounters(carCounts);
         SetActiveStateTransportButtons(carCounts);

@@ -64,6 +64,7 @@ namespace MyGame
         private void FillEdges(int edgeCount)
         {
             m_resultNumber = 0;
+            edgeNumbers.Clear();
             for (int index = 0; index < edgeCount; ++index)
             {
                 List<int> edge = new List<int>();
@@ -134,12 +135,16 @@ namespace MyGame
         private void RecreateCarCounts()
         {
             carCounts.Clear();
+            carCounts = new Dictionary<int, int>();
 
             carCounts.Add(1, 0);
             for (int index = 1; index <= 4; ++index)
             {
                 carCounts.Add(index * 2, 0);
+                Debug.Log((index * 2).ToString());
+
             }
+            Debug.Log("Clear");
         }
 
         public void CreateLevelInfo()
