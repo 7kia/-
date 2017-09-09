@@ -35,7 +35,6 @@ namespace MyGame
         private List<List<int>> edgeNumbers = new List<List<int>>();
         private int m_curretnLevel = 0;
         public int m_resultNumber = 0;
-        public uint levelCount = 6;
         public void SetCurrentLevel(int levelId)
         {
             m_curretnLevel = levelId;
@@ -66,6 +65,12 @@ namespace MyGame
 
         private void FillEdges(int edgeCount)
         {
+            int transportNumber = (m_curretnLevel < START_COMPLEX_SHAPE_LEVEL) 
+                ? (m_curretnLevel + 1) 
+                : m_curretnLevel - START_COMPLEX_SHAPE_LEVEL + 1;
+
+
+
             m_resultNumber = 0;
             edgeNumbers.Clear();
             for (int index = 0; index < edgeCount; ++index)
@@ -75,12 +80,12 @@ namespace MyGame
                 // TODO : для следующих граней, край от прошлой грани не считаем
                 if (index == 0)
                 {
-                    edge.Add((m_curretnLevel + 1) * 2);
+                    edge.Add(transportNumber * 2);
                 }
                 edge.Add(1);
                 if (index != (edgeCount - 1))
                 {
-                    edge.Add((m_curretnLevel + 1) * 2);
+                    edge.Add(transportNumber * 2);
                 }
 
                 // TODO : добавь новых машинок
@@ -141,13 +146,10 @@ namespace MyGame
             carCounts = new Dictionary<int, int>();
 
             carCounts.Add(1, 0);
-            for (int index = 1; index <= 4; ++index)
+            for (int index = 1; index < MAX_LEVEL; ++index)
             {
                 carCounts.Add(index * 2, 0);
-                Debug.Log((index * 2).ToString());
-
             }
-            Debug.Log("Clear");
         }
 
         public void CreateLevelInfo()

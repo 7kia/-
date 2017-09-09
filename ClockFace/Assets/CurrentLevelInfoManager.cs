@@ -37,9 +37,13 @@ public class CurrentLevelInfoManager : MonoBehaviour
     {
         XmlDocument xmlDoc = new XmlDocument();
 
-        if (xmlDoc.FirstChild == null)
+        if (!File.Exists(CURRENT_LEVEL_INFO_PATH))
         {
             xmlDoc.LoadXml(GenerateNewXMLLevelInfoString());
+        }
+        else
+        {
+            xmlDoc.Load(CURRENT_LEVEL_INFO_PATH);
         }
 
         XmlNode currentLevelInfo = xmlDoc.ChildNodes[1].ChildNodes[0];
@@ -53,9 +57,14 @@ public class CurrentLevelInfoManager : MonoBehaviour
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.Load(CURRENT_LEVEL_INFO_PATH);
 
+
+
         XmlNode lastFinishedLevel = xmlDoc.ChildNodes[1].ChildNodes[1];
+        Debug.Log(Convert.ToInt32(lastFinishedLevel.Attributes["id"].Value));
+
         if (levelId > Convert.ToInt32(lastFinishedLevel.Attributes["id"].Value))
         {
+            Debug.Log("Set finished level = " + levelId.ToString() + " / " + Convert.ToInt32(lastFinishedLevel.Attributes["id"].Value));
             SetAtribute(ref lastFinishedLevel, "id", levelId.ToString());
         }
 

@@ -249,7 +249,7 @@ public class GameManager : MonoBehaviour
         currentLevelInfoManager.SetCurrentLevel(currentLevel);
         currentLevelInfoManager.SetLastFinishedLevel(currentLevel);
 
-        if (currentLevel < MyGame.LevelManager.MAX_LEVEL)
+        if (currentLevel <= MyGame.LevelManager.MAX_LEVEL)
         {
             Debug.Log("Load level = " + currentLevel.ToString());
 

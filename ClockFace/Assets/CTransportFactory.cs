@@ -61,12 +61,12 @@ public class CTransportFactory : MonoBehaviour {
 
     public void UpdateCounters(List<int> countTransports)
     {
-        
-        for(int index = 0; index < countTransports.Count; index++)
+        Debug.Log(countTransports.Count.ToString());
+        for (int index = 0; index < countTransports.Count; ++index)
         {
             carCounter[index].Reset();
-            Debug.Log(countTransports[index]);
-            Debug.Log(carCounter[index].m_count);
+            Debug.Log(countTransports[index].ToString());
+            Debug.Log(carCounter[index].m_count.ToString());
             carCounter[index].SetMax(countTransports[index]);
         }
     }
