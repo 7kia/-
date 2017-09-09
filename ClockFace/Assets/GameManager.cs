@@ -167,10 +167,10 @@ public class GameManager : MonoBehaviour
     #region DeleteTrasports
     private void DeleteTrasports()
     {
-        var shape = canvas.transform.GetChild(1);
+        var shape = canvas.transform.GetChild(0);
         if (currentLevel > 2)
         {
-            shape = canvas.transform.GetChild(2);
+            shape = canvas.transform.GetChild(1);
         }
         var edgeController = shape.GetChild(0);
 
@@ -181,36 +181,14 @@ public class GameManager : MonoBehaviour
                 DeleteTrasportFromEdge(m_edgeControllers[index].m_edges[index2]);
             }
         }
-        //Debug.Log("edgeController Destroy");
-        //int index = 0;
-        //while (index < m_edgeController.m_edges.Count())
-        //{
-        //    DeleteTrasportFromEdge(m_edgeController.m_edges[index]);
-        //    index++;
-        //}
     }
 
     private void DeleteTrasportFromEdge(CEdge edge)
     {
-        //Debug.Log(edge.name + " " + edge.childCount);
         for (int transportListIndex = 0; transportListIndex < edge.m_transportList.Count(); ++transportListIndex)
         {
             DeleteTrasportFromCell(edge.m_transportList[transportListIndex]);
         }
-        //for (int index2 = 0; index2 < edge.m_transportList.Count(); ++index2)
-        //{
-        //    var cell = edge.m_transportList[index2];
-        //    if (cell.transform.childCount > 1)
-        //    {
-        //        int childCount = cell.transform.childCount;
-        //        for (int childIndex = 0; childIndex < childCount; ++childIndex)
-        //        {
-        //            var child = cell.transform.GetChild(childIndex);
-        //            Destroy(child.gameObject);
-        //        }
-        //    }
-
-        //}
     }
 
     private void DeleteTrasportFromCell(GameObject cell)
