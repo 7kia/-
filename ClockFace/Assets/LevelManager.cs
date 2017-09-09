@@ -28,7 +28,8 @@ namespace MyGame
         const int EDGE_NUMBER_COUNT = 3;
         const int SIMPLE_FUGURE_EDGE_COUNT = 4;
         const int COMPLEX_FUGURE_EDGE_COUNT = 6;
-
+        public const int START_COMPLEX_SHAPE_LEVEL = 3;
+        public const int MAX_LEVEL = 5;
         public Dictionary<int, int> carCounts = new Dictionary<int, int>();
         private List<List<int>> edgeNumbers = new List<List<int>>();
         private int m_curretnLevel = 0;
@@ -37,7 +38,7 @@ namespace MyGame
         public void SetCurrentLevel(int levelId)
         {
             m_curretnLevel = levelId;
-            if (levelId < 3)
+            if (levelId < START_COMPLEX_SHAPE_LEVEL)
             {
                 FillEdges(SIMPLE_FUGURE_EDGE_COUNT);
 
@@ -46,6 +47,7 @@ namespace MyGame
             {
                 FillEdges(COMPLEX_FUGURE_EDGE_COUNT);
             }
+
 
             RecreateCarCounts();
             foreach(var numbers in edgeNumbers)

@@ -12,8 +12,9 @@ public class GameManager : MonoBehaviour
     public MyGame.LevelManager levelManager;
     public GameObject[] carButtons;
     public GameObject[] otherButtons;
-    public CEdgeController m_edgeController;
-    public Text amountText;
+    public GameObject[] shapes;
+    public CEdgeController[] m_edgeControllers;
+    public Text[] amountTexts;
     public GameObject victoryDisplay;
     public GameObject defeatDisplay;
     public GameObject canvas;
@@ -35,6 +36,19 @@ public class GameManager : MonoBehaviour
         levelManager.SetCurrentLevel(currentLevelInfoManager.GetCurrentLevelId());
         currentLevel = currentLevelInfoManager.GetCurrentLevelId();
 
+        for (int index = 0; index < shapes.Count(); ++index)
+        {
+            shapes[index].SetActive(false);
+        }
+        if (currentLevel < MyGame.LevelManager.START_COMPLEX_SHAPE_LEVEL)
+        {
+            shapes[0].SetActive(true);
+        }
+        else
+        {
+            shapes[1].SetActive(true);
+        }
+
         List<int> carCounts = new List<int>();
         foreach(var value in levelManager.carCounts.Values)
         {
@@ -43,11 +57,14 @@ public class GameManager : MonoBehaviour
         }
         transportFactory.UpdateCounters(carCounts);
         SetActiveStateTransportButtons(carCounts);
-        amountText.text = levelManager.m_resultNumber.ToString();
 
-        m_edgeController.m_resultNumber = levelManager.m_resultNumber;
-        Debug.Log(m_edgeController.m_resultNumber.ToString());
-        Debug.Log(levelManager.m_resultNumber.ToString());
+        for(int index = 0; index < m_edgeControllers.Count(); ++index)
+        {
+            amountTexts[index].text = levelManager.m_resultNumber.ToString();
+            m_edgeControllers[index].m_resultNumber = levelManager.m_resultNumber;
+        }
+
+
         m_canUpdate = true;
     }
 
@@ -64,11 +81,16 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (m_edgeController.numberIsCompute && m_canUpdate)
+        for (int index = 0; index < m_edgeControllers.Count(); ++index)
         {
-            m_edgeController.numberIsCompute = false;
-            m_canUpdate = false;
-            LoadVictoryDisplay();
+            if (m_edgeControllers[index].numberIsCompute && m_canUpdate)
+            {
+                m_edgeControllers[index].numberIsCompute = false;
+                m_canUpdate = false;
+                LoadVictoryDisplay();
+                Debug.Log("LoadVictoryDisplay");
+                break;
+            }
         }
     }
 
@@ -95,9 +117,17 @@ public class GameManager : MonoBehaviour
 
     private void BlockTransportToCells()
     {
-        for (int index = 0; index < m_edgeController.m_edges.Count(); ++index)
+        for (int index = 0; index < m_edgeControllers.Count(); ++index)
         {
-            var edge = m_edgeController.m_edges[index];
+            BlockTransportToEdgeController(m_edgeControllers[index]);
+        }
+    }
+
+    private void BlockTransportToEdgeController(CEdgeController edgeController)
+    {
+        for (int index = 0; index < edgeController.m_edges.Count(); ++index)
+        {
+            var edge = edgeController.m_edges[index];
 
             for (int index2 = 0; index2 < edge.m_transportList.Count(); ++index2)
             {
@@ -141,11 +171,13 @@ public class GameManager : MonoBehaviour
         }
         var edgeController = shape.GetChild(0);
 
-        for (int index2 = 0; index2 < m_edgeController.m_edges.Count(); ++index2)
+        for (int index = 0; index < m_edgeControllers.Count(); ++index)
         {
-            DeleteTrasportFromEdge(m_edgeController.m_edges[index2]);
+            for (int index2 = 0; index2 < m_edgeControllers[index].m_edges.Count(); ++index2)
+            {
+                DeleteTrasportFromEdge(m_edgeControllers[index].m_edges[index2]);
+            }
         }
-
         //Debug.Log("edgeController Destroy");
         //int index = 0;
         //while (index < m_edgeController.m_edges.Count())
@@ -203,6 +235,10 @@ public class GameManager : MonoBehaviour
     public void LoadNewLevel()
     {
         ++currentLevel;
+        if(currentLevel > MyGame.LevelManager.MAX_LEVEL)
+        {
+            ExitToMenu();
+        }
         currentLevelInfoManager.SetCurrentLevel(currentLevel);
         Debug.Log("Load level = " + currentLevel.ToString());
         if (currentLevel < levelManager.levelCount)
