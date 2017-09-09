@@ -276,6 +276,13 @@ public class GameManager : MonoBehaviour
         levelManager.ChangeLevel(currentLevel, 0, 0);
     }
 
+    public void SaveAndExitToMenu()
+    {
+        currentLevelInfoManager.SetLastFinishedLevel(currentLevel + 1);
+        SaveLevelInfo();
+        ExitToMenu();
+    }
+
     public void ExitToMenu()
     {
         SceneManager.LoadScene("MenuScene", LoadSceneMode.Single);
