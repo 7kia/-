@@ -8,6 +8,7 @@ public class CEdgeController : MonoBehaviour {
     public CEdge[] m_edges;
     public int m_resultNumber;
     public bool numberIsCompute = false;
+    public bool isActive = true;
     //// Use this for initialization
     //void Start () {
 
@@ -16,32 +17,36 @@ public class CEdgeController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        bool amountEqual = true;
-        foreach(CEdge edge in m_edges)
+        if (isActive)
         {
-            int summEdge = 0;
-            
-            foreach (GameObject transportCell in edge.m_transportList)
+            bool amountEqual = true;
+            foreach (CEdge edge in m_edges)
             {
-                if (transportCell.transform.childCount == 1)
+                int summEdge = 0;
+
+                foreach (GameObject transportCell in edge.m_transportList)
                 {
-                    summEdge += transportCell.GetComponentInChildren<CTransport>().m_transportNumber;
+                    if (transportCell.transform.childCount == 1)
+                    {
+                        summEdge += transportCell.GetComponentInChildren<CTransport>().m_transportNumber;
+                    }
                 }
+                amountEqual &= (summEdge == m_resultNumber);
+                //Debug.Log("Edge result = " + m_resultNumber.ToString());
+                // TODO : delete debug info
+                //if (summEdge == m_resultNumber)
+                //{
+                //    Debug.Log("Edge result = " + m_resultNumber.ToString() + " amountEqual = " + amountEqual.ToString());
+                //}
             }
-            amountEqual &= (summEdge == m_resultNumber);
-            //Debug.Log("Edge result = " + m_resultNumber.ToString());
+            numberIsCompute = amountEqual;
             // TODO : delete debug info
-            //if (summEdge == m_resultNumber)
-            //{
-            //    Debug.Log("Edge result = " + m_resultNumber.ToString() + " amountEqual = " + amountEqual.ToString());
-            //}
+            if (numberIsCompute)
+            {
+                //Debug.Log("VICTORY Compute number = " + m_resultNumber.ToString());
+            }
         }
-        numberIsCompute = amountEqual;
-        // TODO : delete debug info
-        if (numberIsCompute)
-        {
-            //Debug.Log("VICTORY Compute number = " + m_resultNumber.ToString());
-        }
+        
 
 
     }

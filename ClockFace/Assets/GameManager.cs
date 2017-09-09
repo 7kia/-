@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
         foreach(var value in levelManager.carCounts.Values)
         {
             carCounts.Add(value);
-            Debug.Log(value.ToString() + " value.ToString()");
         }
         transportFactory.UpdateCounters(carCounts);
         SetActiveStateTransportButtons(carCounts);
@@ -66,15 +65,17 @@ public class GameManager : MonoBehaviour
 
 
         m_canUpdate = true;
+        for (int index = 0; index < m_edgeControllers.Count(); ++index)
+        {
+            m_edgeControllers[index].isActive = true;
+        }
     }
 
     private void SetActiveStateTransportButtons(List<int> carCounts)
     {
-        Debug.Log(carCounts.Count + " carCounts.Count");
 
         for (int index = 0; index < carCounts.Count; ++index)
         {
-            Debug.Log(index.ToString() + " " + (carCounts[index] > 0).ToString());
             carButtons[index].SetActive(carCounts[index] > 0);
         }
     }
@@ -85,10 +86,12 @@ public class GameManager : MonoBehaviour
         {
             if (m_edgeControllers[index].numberIsCompute && m_canUpdate)
             {
+                m_edgeControllers[index].isActive = false;
                 m_edgeControllers[index].numberIsCompute = false;
                 m_canUpdate = false;
+                Debug.Log("LoadVictoryDisplay " + index.ToString());
+
                 LoadVictoryDisplay();
-                Debug.Log("LoadVictoryDisplay");
                 break;
             }
         }
@@ -234,15 +237,19 @@ public class GameManager : MonoBehaviour
 
     public void LoadNewLevel()
     {
+        DeleteTrasports();
+        SaveLevelInfo();
+
         ++currentLevel;
         if(currentLevel > MyGame.LevelManager.MAX_LEVEL)
         {
             ExitToMenu();
         }
         currentLevelInfoManager.SetCurrentLevel(currentLevel);
-        Debug.Log("Load level = " + currentLevel.ToString());
-        if (currentLevel < levelManager.levelCount)
+        if (currentLevel < MyGame.LevelManager.MAX_LEVEL)
         {
+        Debug.Log("Load level = " + currentLevel.ToString());
+
             RecreateLevel();
         }
     }
@@ -255,6 +262,7 @@ public class GameManager : MonoBehaviour
 
     public void Replay()
     {
+        DeleteTrasports();
         SaveLevelInfo();
         RecreateLevel();
     }
