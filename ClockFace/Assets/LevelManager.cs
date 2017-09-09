@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace MyGame
 {
+    using System.IO;
     using TimeList = List<MyTime>;
 
     class MyTime
@@ -154,9 +155,13 @@ namespace MyGame
             m_levelInfos.Clear();
             XmlDocument xmlDoc = new XmlDocument();
 
-            if (xmlDoc.FirstChild == null)
+            if(!File.Exists(LEVEL_INFO_PATH))
             {
                 xmlDoc.LoadXml(GenerateNewXMLLevelInfoString());
+            }
+            else
+            {
+                xmlDoc.Load(LEVEL_INFO_PATH);
             }
 
             XmlNode levelsNode = xmlDoc.ChildNodes[1];

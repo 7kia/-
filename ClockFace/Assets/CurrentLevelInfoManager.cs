@@ -7,10 +7,24 @@ using UnityEngine;
 
 public class CurrentLevelInfoManager : MonoBehaviour
 {
+    const string CURRENT_LEVEL_INFO_PATH = "CurrentLevel.xml";
 
     // Use this for initialization
     void Start()
     {
+        XmlDocument xmlDoc = new XmlDocument();
+
+        if (!File.Exists(CURRENT_LEVEL_INFO_PATH))
+        {
+            xmlDoc.LoadXml(GenerateNewXMLLevelInfoString());
+        }
+        else
+        {
+            xmlDoc.Load(CURRENT_LEVEL_INFO_PATH);
+        }
+
+        xmlDoc.Save(CURRENT_LEVEL_INFO_PATH);
+
     }
 
     // Update is called once per frame
@@ -18,7 +32,6 @@ public class CurrentLevelInfoManager : MonoBehaviour
     {
 
     }
-    const string CURRENT_LEVEL_INFO_PATH = "CurrentLevel.xml";
 
     public void SetCurrentLevel(int levelId)
     {

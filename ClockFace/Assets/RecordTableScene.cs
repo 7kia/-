@@ -29,7 +29,6 @@ public class RecordTableScene : MonoBehaviour {
     public void LoadLevel(int levelId)
     {
         // TODO : возможно при переигрывании уровня уже пройденный придётся переоткрывать
-        levelManager.CreateLevelInfo();
         currentLevelInfoManager.SetCurrentLevel(levelId);
 
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
