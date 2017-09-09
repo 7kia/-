@@ -241,7 +241,9 @@ public class GameManager : MonoBehaviour
         SaveLevelInfo();
 
         ++currentLevel;
-        if(currentLevel > MyGame.LevelManager.MAX_LEVEL)
+        currentLevelInfoManager.SetLastFinishedLevel(currentLevel);
+
+        if (currentLevel > MyGame.LevelManager.MAX_LEVEL)
         {
             ExitToMenu();
         }
@@ -262,6 +264,7 @@ public class GameManager : MonoBehaviour
 
     public void Replay()
     {
+        currentLevelInfoManager.SetLastFinishedLevel(currentLevel + 1);
         DeleteTrasports();
         SaveLevelInfo();
         RecreateLevel();

@@ -3,16 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RecordTableScene : MonoBehaviour {
 
     public LevelManager levelManager;
     public CurrentLevelInfoManager currentLevelInfoManager;
-
+    public Button[] replayButtons;
     // Use this for initialization
-    void Start () {
-		
-	}
+    void Start() {
+
+        int lastFinishedLevel = currentLevelInfoManager.GetLastFinishedLevel();
+        for (int index = 0; index < replayButtons.Length; ++index)
+        {
+            replayButtons[index].interactable = (index <= lastFinishedLevel);
+        }
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -25,7 +32,6 @@ public class RecordTableScene : MonoBehaviour {
         levelManager.CreateLevelInfo();
         currentLevelInfoManager.SetCurrentLevel(levelId);
 
-        // TODO : reset info, load 1 level
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
 
