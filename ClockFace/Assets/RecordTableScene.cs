@@ -10,6 +10,7 @@ public class RecordTableScene : MonoBehaviour {
     public LevelManager levelManager;
     public CurrentLevelInfoManager currentLevelInfoManager;
     public Button[] replayButtons;
+    public GameObject[] awardPanels;
     // Use this for initialization
     void Start() {
 
@@ -17,6 +18,16 @@ public class RecordTableScene : MonoBehaviour {
         for (int index = 0; index < replayButtons.Length; ++index)
         {
             replayButtons[index].interactable = (index <= lastFinishedLevel);
+        }
+
+        for(int index = 0; index < awardPanels.Length; ++index)
+        {
+            int award = levelManager.m_levelInfos[index].award;
+            for (int childIndex = 0; childIndex < 3; ++childIndex)
+            {
+                var awardToggle = awardPanels[index].transform.GetChild(childIndex);
+                awardToggle.GetComponent<Toggle>().interactable = ((childIndex) < award);
+            }
         }
 
     }
