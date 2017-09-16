@@ -181,6 +181,7 @@ namespace MyGame
             m_levelInfos.Clear();
             XmlDocument xmlDoc = new XmlDocument();
 
+            File.Delete(CurrentLevelInfoManager.CURRENT_LEVEL_INFO_PATH);
             xmlDoc.LoadXml(GenerateNewXMLLevelInfoString());
 
             XmlNode levelsNode = xmlDoc.ChildNodes[1];
@@ -290,7 +291,7 @@ namespace MyGame
                 // 1 0
                 // 0 43
                 if ((awardTimeList[index].m_minutes * 60 + awardTimeList[index].m_seconds) 
-                    >= (minutes * 60 + seconds))
+                    <= (minutes * 60 + seconds))
                 {
                     awardValue = index + 1;
                     break;

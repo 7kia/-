@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class CurrentLevelInfoManager : MonoBehaviour
 {
-    const string CURRENT_LEVEL_INFO_PATH = "CurrentLevel.xml";
+    public const string CURRENT_LEVEL_INFO_PATH = "CurrentLevel.xml";
 
     // Use this for initialization
     void Start()

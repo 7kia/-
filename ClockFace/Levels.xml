@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <levels>
-  <level id="0" minutes="..." seconds="..." award="1" />
-  <level id="1" minutes="..." seconds="..." award="1" />
-  <level id="2" minutes="0" seconds="39" award="2" />
-  <level id="3" minutes="..." seconds="..." award="1" />
-  <level id="4" minutes="..." seconds="..." award="1" />
-  <level id="5" minutes="..." seconds="..." award="1" />
+  <level id="0" minutes="0" seconds="50" award="3" />
+  <level id="1" minutes="0" seconds="58" award="3" />
+  <level id="2" minutes="0" seconds="0" award="0" />
+  <level id="3" minutes="0" seconds="0" award="0" />
+  <level id="4" minutes="0" seconds="0" award="0" />
+  <level id="5" minutes="0" seconds="0" award="0" />
 </levels>
