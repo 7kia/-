@@ -26,7 +26,7 @@ public class RecordTableScene : MonoBehaviour {
             for (int childIndex = 0; childIndex < 3; ++childIndex)
             {
                 var awardToggle = awardPanels[index].transform.GetChild(childIndex);
-                awardToggle.GetComponent<Toggle>().interactable = ((childIndex) < award);
+                awardToggle.GetComponent<Toggle>().interactable = ((childIndex + 1) <= award);
             }
         }
 

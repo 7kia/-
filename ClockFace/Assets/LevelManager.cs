@@ -129,7 +129,7 @@ namespace MyGame
         {
             LoadTimesForLevels();
             RecreateCarCounts();
-            CreateLevelInfo();
+            LoadLevelInfo();
         }
 
         // Update is called once per frame
@@ -150,52 +150,56 @@ namespace MyGame
             }
         }
 
+        public void LoadLevelInfo()
+        {
+            m_levelInfos.Clear();
+            XmlDocument xmlDoc = new XmlDocument();
+    
+            xmlDoc.Load(LEVEL_INFO_PATH);
+
+            XmlNode levelsNode = xmlDoc.ChildNodes[1];
+            var levelList = levelsNode.SelectNodes("level");
+
+            for (int index = 0; index < LEVEL_COUNT; ++index)
+            {
+                var levelInfo = new LevelInfo();
+                if (levelList.Count != 0)
+                {
+                    XmlNode currNode = levelList[index];
+                    levelInfo.minutes = Convert.ToInt32(GetAtribute(ref currNode, "minutes"));
+                    levelInfo.seconds = Convert.ToInt32(GetAtribute(ref currNode, "seconds"));
+                    levelInfo.award = Convert.ToInt32(GetAtribute(ref currNode, "award"));
+                }
+                m_levelInfos.Add(levelInfo);
+            }
+            
+            xmlDoc.Save(LEVEL_INFO_PATH);
+        }
+
         public void CreateLevelInfo()
         {
             m_levelInfos.Clear();
             XmlDocument xmlDoc = new XmlDocument();
 
-            if(!File.Exists(LEVEL_INFO_PATH))
+            xmlDoc.LoadXml(GenerateNewXMLLevelInfoString());
+
+            XmlNode levelsNode = xmlDoc.ChildNodes[1];
+            var levelList = levelsNode.SelectNodes("level");
+
+            for (int index = 0; index < LEVEL_COUNT; ++index)
             {
-                xmlDoc.LoadXml(GenerateNewXMLLevelInfoString());
-
-                XmlNode levelsNode = xmlDoc.ChildNodes[1];
-                var levelList = levelsNode.SelectNodes("level");
-
-                for (int index = 0; index < LEVEL_COUNT; ++index)
+                if (levelList.Count != 0)
                 {
-                    if (levelList.Count != 0)
-                    {
-                        XmlNode currNode = levelList[index];
-                        SetAtribute(ref currNode, "minutes", "0");
-                        SetAtribute(ref currNode, "seconds", "0");
-                        SetAtribute(ref currNode, "award", "0");
-                        continue;
-                    }
-                    levelsNode.AppendChild(AddLevelInfo(xmlDoc, index));
-                    m_levelInfos.Add(new LevelInfo());
+                    XmlNode currNode = levelList[index];
+                    SetAtribute(ref currNode, "minutes", "0");
+                    SetAtribute(ref currNode, "seconds", "0");
+                    SetAtribute(ref currNode, "award", "0");
+                    continue;
                 }
+                levelsNode.AppendChild(AddLevelInfo(xmlDoc, index));
+                m_levelInfos.Add(new LevelInfo());
             }
-            else
-            {
-                xmlDoc.Load(LEVEL_INFO_PATH);
-
-                XmlNode levelsNode = xmlDoc.ChildNodes[1];
-                var levelList = levelsNode.SelectNodes("level");
-
-                for (int index = 0; index < LEVEL_COUNT; ++index)
-                {
-                    var levelInfo = new LevelInfo();
-                    if (levelList.Count != 0)
-                    {
-                        XmlNode currNode = levelList[index];
-                        levelInfo.minutes = Convert.ToInt32(GetAtribute(ref currNode, "minutes"));
-                        levelInfo.seconds = Convert.ToInt32(GetAtribute(ref currNode, "seconds"));
-                        levelInfo.award = Convert.ToInt32(GetAtribute(ref currNode, "award"));
-                    }
-                    m_levelInfos.Add(levelInfo);
-                }
-            }
+            
             xmlDoc.Save(LEVEL_INFO_PATH);
         }
 
@@ -223,7 +227,7 @@ namespace MyGame
 
             for (int index = 0; index < LEVEL_COUNT; ++index)
             {
-                m_timeForDefeat.Add(new MyTime(levelTimeList[index][2].m_minutes, levelTimeList[index][2].m_seconds));
+                m_timeForDefeat.Add(new MyTime(levelTimeList[index][0].m_minutes, levelTimeList[index][0].m_seconds));
             }
         }
 
@@ -281,13 +285,15 @@ namespace MyGame
             // TODO : Check check-algorithm
             for (int index = awardTimeList.Count - 1; index >= 0; --index)
             {
-                if (awardTimeList[index].m_minutes >= minutes)
+                // 0 43
+
+                // 1 0
+                // 0 43
+                if ((awardTimeList[index].m_minutes * 60 + awardTimeList[index].m_seconds) 
+                    >= (minutes * 60 + seconds))
                 {
-                    if (awardTimeList[index].m_seconds >= seconds)
-                    {
-                        awardValue = index + 1;
-                        break;
-                    }
+                    awardValue = index + 1;
+                    break;
                 }
             }
 
