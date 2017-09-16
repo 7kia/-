@@ -25,7 +25,12 @@ namespace ConsoleApplication1
                 
         class LevelManager
         {
-class LevelInfo
+            public LevelManager()
+            {
+                Start();
+            }
+
+            class LevelInfo
             {
                 int edgeNumber = 4;
                 int countNumber = 3;
@@ -46,7 +51,6 @@ class LevelInfo
             void Start()
             {
                 LoadTimesForLevels();
-                ChangeLevel(2, 1, 33);
             }
 
 
@@ -68,9 +72,9 @@ class LevelInfo
                     if (levelList.Count != 0)
                     {
                         XmlNode currNode = levelList[index];
-                        SetAtribute(ref currNode, "Minutes", NO_TIME);
-                        SetAtribute(ref currNode, "Seconds", NO_TIME);
-                        SetAtribute(ref currNode, "Award", "1");
+                        SetAtribute(ref currNode, "minutes", NO_TIME);
+                        SetAtribute(ref currNode, "seconds", NO_TIME);
+                        SetAtribute(ref currNode, "award", "1");
                         continue;
                     }
                     levelsNode.AppendChild(AddLevelInfo(xmlDoc, index));
@@ -217,11 +221,64 @@ class LevelInfo
 
         }
 
+        class CurrentLevelInfoManager
+        {
+            const string CURRENT_LEVEL_INFO_PATH = "CurrentLevel.xml";
+
+            public void SetCurrentLevel(int levelId)
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+
+                if (xmlDoc.FirstChild == null)
+                {
+                    xmlDoc.LoadXml(GenerateNewXMLLevelInfoString());
+                }
+
+                XmlNode currentLevelInfo = xmlDoc.ChildNodes[1];
+                //var currentLevelInfo = levelsNode.SelectSingleNode("currentLevel");
+
+                SetAtribute(ref currentLevelInfo, "id", levelId.ToString());
+                        
+
+                xmlDoc.Save(CURRENT_LEVEL_INFO_PATH);
+            }
+
+            public int GetCurrentLevelId()
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(CURRENT_LEVEL_INFO_PATH);
+
+                XmlNode currentLevelInfo = xmlDoc.ChildNodes[1];
+
+                return Convert.ToInt32(currentLevelInfo.Attributes["id"].Value);
+            }
+
+            private void SetAtribute(
+                ref XmlNode currNode,
+                string atributeName,
+                string atributeValue
+            )
+            {
+                currNode.Attributes[atributeName].Value = atributeValue;
+            }
+
+            private string GenerateNewXMLLevelInfoString()
+            {
+                return "<?xml version=\"1.0\"?> \n" +
+                    "<currentLevel id=\"0\"/> \n";
+            }
+        }
 
         static void Main(string[] args)
         {
             LevelManager l = new LevelManager();
             l.CreateLevelInfo();
+            l.ChangeLevel(2, 2, 5);
+            l.ChangeLevel(0, 1, 0);
+
+            CurrentLevelInfoManager l2 = new CurrentLevelInfoManager();
+            l2.SetCurrentLevel(3);
+            var o2 = l2.GetCurrentLevelId();
         }
 
     }

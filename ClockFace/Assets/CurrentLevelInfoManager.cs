@@ -60,11 +60,11 @@ public class CurrentLevelInfoManager : MonoBehaviour
 
 
         XmlNode lastFinishedLevel = xmlDoc.ChildNodes[1].ChildNodes[1];
-        Debug.Log(Convert.ToInt32(lastFinishedLevel.Attributes["id"].Value));
+        //Debug.Log(Convert.ToInt32(lastFinishedLevel.Attributes["id"].Value));
 
         if (levelId > Convert.ToInt32(lastFinishedLevel.Attributes["id"].Value))
         {
-            Debug.Log("Set finished level = " + levelId.ToString() + " / " + Convert.ToInt32(lastFinishedLevel.Attributes["id"].Value));
+            //Debug.Log("Set finished level = " + levelId.ToString() + " / " + Convert.ToInt32(lastFinishedLevel.Attributes["id"].Value));
             SetAtribute(ref lastFinishedLevel, "id", levelId.ToString());
         }
 

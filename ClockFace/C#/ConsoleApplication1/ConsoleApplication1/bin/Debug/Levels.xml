@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <levels>
-  <level id="0" minutes="..." seconds="..." award="0" />
+  <level id="0" minutes="1" seconds="0" award="0" />
   <level id="1" minutes="..." seconds="..." award="0" />
-  <level id="2" minutes="..." seconds="..." award="0" />
+  <level id="2" minutes="2" seconds="5" award="0" />
   <level id="3" minutes="..." seconds="..." award="0" />
   <level id="4" minutes="..." seconds="..." award="0" />
   <level id="5" minutes="..." seconds="..." award="0" />

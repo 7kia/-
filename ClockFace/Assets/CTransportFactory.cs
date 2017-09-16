@@ -84,7 +84,7 @@ public class CTransportFactory : MonoBehaviour {
 
             whatToSpawnClone[lastIndex].transform.parent = spawnLocations.transform;
             //++lastIndex;
-            Debug.Log("Car number " + counterIndex.ToString() + " amount = " + carCounter[counterIndex].m_count.ToString());
+            //Debug.Log("Car number " + counterIndex.ToString() + " amount = " + carCounter[counterIndex].m_count.ToString());
 
         }
     }

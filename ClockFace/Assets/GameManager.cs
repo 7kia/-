@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] shapes;
     public CEdgeController[] m_edgeControllers;
     public Text[] amountTexts;
+    public Text timerText;
+    public Timer timer;
     public GameObject victoryDisplay;
     public GameObject defeatDisplay;
     public GameObject canvas;
@@ -69,6 +71,11 @@ public class GameManager : MonoBehaviour
         {
             m_edgeControllers[index].isActive = true;
         }
+
+        var time = levelManager.m_timeForDefeat[currentLevelInfoManager.GetCurrentLevelId()];
+        timer.SetTime(time.m_minutes * 60f + time.m_seconds);
+        timer.PlayTimer();
+        //Debug.Log("Time = " + timer.GetTime().ToString());
     }
 
     private void SetActiveStateTransportButtons(List<int> carCounts)
@@ -82,6 +89,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        timerText.text = timer.GetTime().ToString();
+
+        if(timer.m_endTime)
+        {
+            LoadDefeatDisplay();
+        }
+
         for (int index = 0; index < m_edgeControllers.Count(); ++index)
         {
             if (m_edgeControllers[index].numberIsCompute && m_canUpdate)
@@ -89,7 +103,7 @@ public class GameManager : MonoBehaviour
                 m_edgeControllers[index].isActive = false;
                 m_edgeControllers[index].numberIsCompute = false;
                 m_canUpdate = false;
-                Debug.Log("LoadVictoryDisplay " + index.ToString());
+                //Debug.Log("LoadVictoryDisplay " + index.ToString());
 
                 LoadVictoryDisplay();
                 break;
@@ -100,6 +114,7 @@ public class GameManager : MonoBehaviour
     #region Game pause
     public void StopGame()
     {
+        timer.StopTimer();
         BlockTransportToCanvas();
         BlockTransportToCells();
         SetActiveStateButtons(false);
@@ -229,7 +244,7 @@ public class GameManager : MonoBehaviour
 
         if (currentLevel <= MyGame.LevelManager.MAX_LEVEL)
         {
-            Debug.Log("Load level = " + currentLevel.ToString());
+            //Debug.Log("Load level = " + currentLevel.ToString());
 
             RecreateLevel();
         }
@@ -243,7 +258,10 @@ public class GameManager : MonoBehaviour
 
     public void Replay()
     {
-        currentLevelInfoManager.SetLastFinishedLevel(currentLevel + 1);
+        if(!timer.m_endTime)
+        {
+            currentLevelInfoManager.SetLastFinishedLevel(currentLevel + 1);
+        }
         DeleteTrasports();
         SaveLevelInfo();
         RecreateLevel();
@@ -251,8 +269,12 @@ public class GameManager : MonoBehaviour
 
     public void SaveLevelInfo()
     {
-        // TODO : нет таймера
-        levelManager.ChangeLevel(currentLevel, 0, 0);
+        var time = levelManager.m_timeForDefeat[currentLevelInfoManager.GetCurrentLevelId()];
+
+        int minutes = (int)(timer.GetTime() / 60f);
+        int seconds = (int)(timer.GetTime() % 60);
+
+        levelManager.ChangeLevel(currentLevel, minutes, seconds);
     }
 
     public void SaveAndExitToMenu()

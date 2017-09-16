@@ -10,7 +10,7 @@ namespace MyGame
     using System.IO;
     using TimeList = List<MyTime>;
 
-    class MyTime
+    public class MyTime
     {
         public MyTime(int minutes, int seconds)
         {
@@ -125,7 +125,7 @@ namespace MyGame
         const string NO_TIME = "...";
         private List<LevelInfo> m_levelInfos = new List<LevelInfo>();
         private List<TimeList> levelTimeList = new List<TimeList>();
-
+        public List<MyTime> m_timeForDefeat = new List<MyTime>();
         // Use this for initialization
         void Start()
         {
@@ -160,30 +160,26 @@ namespace MyGame
             if(!File.Exists(LEVEL_INFO_PATH))
             {
                 xmlDoc.LoadXml(GenerateNewXMLLevelInfoString());
-            }
-            else
-            {
-                xmlDoc.Load(LEVEL_INFO_PATH);
-            }
 
-            XmlNode levelsNode = xmlDoc.ChildNodes[1];
-            var levelList = levelsNode.SelectNodes("level");
+                XmlNode levelsNode = xmlDoc.ChildNodes[1];
+                var levelList = levelsNode.SelectNodes("level");
 
-            for (int index = 0; index < LEVEL_COUNT; ++index)
-            {
-                if (levelList.Count != 0)
+                for (int index = 0; index < LEVEL_COUNT; ++index)
                 {
-                    XmlNode currNode = levelList[index];
-                    SetAtribute(ref currNode, "minutes", NO_TIME);
-                    SetAtribute(ref currNode, "seconds", NO_TIME);
-                    SetAtribute(ref currNode, "award", "1");
-                    continue;
+                    if (levelList.Count != 0)
+                    {
+                        XmlNode currNode = levelList[index];
+                        SetAtribute(ref currNode, "minutes", NO_TIME);
+                        SetAtribute(ref currNode, "seconds", NO_TIME);
+                        SetAtribute(ref currNode, "award", "1");
+                        continue;
+                    }
+                    levelsNode.AppendChild(AddLevelInfo(xmlDoc, index));
+                    m_levelInfos.Add(new LevelInfo());
                 }
-                levelsNode.AppendChild(AddLevelInfo(xmlDoc, index));
-                m_levelInfos.Add(new LevelInfo());
+                xmlDoc.Save(LEVEL_INFO_PATH);
             }
 
-            xmlDoc.Save(LEVEL_INFO_PATH);
         }
 
         #region Load award times
@@ -208,6 +204,10 @@ namespace MyGame
                 levelTimeList.Add(GetLevelAwardTimeList(levelList[index]));
             }
 
+            for (int index = 0; index < LEVEL_COUNT; ++index)
+            {
+                m_timeForDefeat.Add(new MyTime(levelTimeList[index][0].m_minutes, levelTimeList[index][0].m_seconds));
+            }
         }
 
         private TimeList GetLevelAwardTimeList(XmlNode levelInfoNode)
@@ -276,6 +276,11 @@ namespace MyGame
             SetAtribute(ref editNode, "minutes", minutes.ToString());
             SetAtribute(ref editNode, "seconds", seconds.ToString());
             SetAtribute(ref editNode, "award", awardValue.ToString());
+
+            Debug.Log("levelId " + levelId.ToString());
+            Debug.Log("minutes " + minutes.ToString());
+            Debug.Log("seconds " + seconds.ToString());
+            Debug.Log("award " + awardValue.ToString());
 
             xmlDoc.Save(LEVEL_INFO_PATH);
 
